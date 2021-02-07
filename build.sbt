@@ -13,13 +13,13 @@ lazy val root: Project = project
   .settings(
     name := "grpc-playground",
     version := "0.1",
-    scalaVersion := "2.12.13",
+    scalaVersion := "2.12.8",
     publishArtifact := false
   )
 
 lazy val akkaGrpcClient: Project = project
   .in(file("akka-grpc-client"))
-  .enablePlugins(AkkaGrpcPlugin)
+   .enablePlugins(AkkaGrpcPlugin)
   .settings(
     name := "akka-grpc-client",
     description :=
@@ -28,15 +28,16 @@ lazy val akkaGrpcClient: Project = project
         |Published artifact includes the akka-grpc Scala client and protos for this service.
         |""".stripMargin,
     inConfig(Compile)(Seq(
-      PB.protoSources := Seq(baseDirectory.value.getParentFile / "proto"),
+      PB.protoSources += baseDirectory.value.getParentFile / "proto",
       akkaGrpcGeneratedSources := Seq(AkkaGrpc.Client)
-    ))
+    )),
+    libraryDependencies ++= Dependencies.scalapbProtos
   )
 
 lazy val akkaGrpcService = project
   .in(file("akka-grpc-service"))
   .dependsOn(akkaGrpcClient)
-  .enablePlugins(AkkaGrpcPlugin)
+//  .enablePlugins(AkkaGrpcPlugin)
   .settings(
     name := "akka-grpc-service",
     description :=
@@ -47,7 +48,7 @@ lazy val akkaGrpcService = project
         |""".stripMargin,
     publishArtifact := false,
     inConfig(Compile)(Seq(
-      PB.protoSources := Seq(baseDirectory.value.getParentFile / "proto"),
+      PB.protoSources += baseDirectory.value.getParentFile / "proto",
       akkaGrpcGeneratedSources := Seq(AkkaGrpc.Server)
     ))
   )
@@ -57,7 +58,7 @@ lazy val wikiApi = project
   .settings(
     name := "wiki-api",
     description := "Case classes for the Wikimedia API, based on https://github.com/wikimedia/mediawiki-event-schemas",
-    libraryDependencies := Dependencies.wikiApi
+    libraryDependencies ++= Dependencies.wikiApi
   )
 
 
@@ -67,5 +68,5 @@ lazy val wikiStreamAkka = project
   .settings(
     name := "wiki-stream-akka",
     description := "akka-stream API for consuming streaming data from wikipedia",
-    libraryDependencies := Dependencies.wikiStreamAkka
+    libraryDependencies ++= Dependencies.wikiStreamAkka
   )

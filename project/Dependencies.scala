@@ -22,4 +22,8 @@ object Dependencies {
     "io.circe" %% "circe-parser" % Versions.circe
   )
 
+  val scalapbProtos: Seq[ModuleID] = Seq(
+    "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
+  )
+
 }

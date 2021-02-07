@@ -7,6 +7,10 @@ import scala.concurrent.duration._
 
 object Playground extends App {
   implicit val sys = ActorSystem("playground")
-  val future = Sources.recentChange().runForeach(println)
+  val future =
+    Sources
+      .recentChange()
+      .map(ev => (ev.id, ev.server_url, ev.title))
+      .runForeach(println)
   Await.ready(future, Duration.Inf)
 }

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.wikimedia.recentchange";
+
+package recentchange;
+
+import "google/protobuf/wrappers.proto";
+
+service RecentChangeService {
+    rpc StreamChanges (StreamChangesRequest) returns (stream StreamChangesReply) {}
+}
+
+message Recentchange {
+    google.protobuf.Int32Value id = 1;
+    google.protobuf.StringValue server_url = 2;
+    google.protobuf.StringValue title = 3;
+    google.protobuf.StringValue user = 4;
+}
+
+message StreamChangesRequest {}
+
+message StreamChangesReply {
+    Recentchange recentchange = 1;
+}
