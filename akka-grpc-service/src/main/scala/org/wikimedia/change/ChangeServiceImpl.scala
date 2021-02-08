@@ -9,8 +9,7 @@ class ChangeServiceImpl(implicit sys: ActorSystem) extends ChangeService {
 
   def streamChanges(
       r: StreamChangesRequest): Source[StreamChangesResponse, NotUsed] = {
-    // TODO: is there a way to avoid opening a new connection every time?
-    //  i.e. broadcast changes from a single stream to a variable number of consumers?
+    // TODO: implement pubsub so that there's a topic of changes and each streaming request subscribes to the topic.
     Sources
       .recentChange()
       .map(rc =>
