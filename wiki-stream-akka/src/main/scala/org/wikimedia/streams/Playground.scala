@@ -1,4 +1,4 @@
-package com.alexklibisz.wikistream
+package org.wikimedia.streams
 
 import akka.actor.ActorSystem
 

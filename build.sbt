@@ -5,7 +5,7 @@
  */
 
 // Global settings (i.e. apply to all projects).
-organization := "com.alexklibisz"
+organization := "org.wikimedia"
 
 lazy val root: Project = project
   .in(file("."))
@@ -36,8 +36,8 @@ lazy val akkaGrpcClient: Project = project
 
 lazy val akkaGrpcService = project
   .in(file("akka-grpc-service"))
-  .dependsOn(akkaGrpcClient)
-//  .enablePlugins(AkkaGrpcPlugin)
+  .dependsOn(akkaGrpcClient, wikiStreamAkka)
+  .enablePlugins(AkkaGrpcPlugin)
   .settings(
     name := "akka-grpc-service",
     description :=

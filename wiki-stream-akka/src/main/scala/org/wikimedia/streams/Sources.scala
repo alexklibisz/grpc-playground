@@ -1,4 +1,4 @@
-package com.alexklibisz.wikistream
+package org.wikimedia.streams
 
 import akka.NotUsed
 import akka.actor.ActorSystem
@@ -15,7 +15,8 @@ object Sources {
 
   def recentChange(uri: Uri = Uri(org.mediawiki.urls.V2StreamRecentChange),
                    retryDelay: FiniteDuration = 1.second)(
-      implicit sys: ActorSystem): Source[MediawikiRecentchange, NotUsed] =
+      implicit sys: ActorSystem): Source[MediawikiRecentchange, NotUsed] = {
+    sys.log.info(s"Opening a new event source stream from [$uri]")
     EventSource(
       uri = uri,
       send = Http().singleRequest(_),
@@ -28,5 +29,6 @@ object Sources {
           Source.empty[MediawikiRecentchange]
         case Right(value) => Source.single(value)
       }
+  }
 
 }
